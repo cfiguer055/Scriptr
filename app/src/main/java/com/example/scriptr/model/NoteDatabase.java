@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 
 
-@Database(entities = {Folder.class,Note.class}, version = 1)
+@Database(entities = {Folder.class,Note.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class NoteDatabase extends RoomDatabase {
 
