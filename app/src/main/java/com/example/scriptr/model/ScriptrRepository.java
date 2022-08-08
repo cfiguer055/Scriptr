@@ -29,12 +29,12 @@ public class ScriptrRepository {
     }
 
 
-    public LiveData<List<Folder>> getFolders() {
+    public LiveData<List<Folder>> getAllFolders() {
         return folderDAO.getAllFolders();
     }
 
 
-    public LiveData<List<Note>> getNotes(int folderId) {
+    public LiveData<List<Note>> getNotesFromFolder(int folderId) {
         return noteDAO.getNotes(folderId);
     }
 
