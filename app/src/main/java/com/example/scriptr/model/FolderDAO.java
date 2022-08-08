@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -14,10 +15,13 @@ public interface FolderDAO {
     @Insert
     void insert(Folder folder);
 
+    @Update
+    void update(Folder folder);
+
     @Delete
     void delete(Folder folder);
 
     @Query("SELECT * FROM folders")
-    LiveData<List<Note>> getAllFolders();
+    LiveData<List<Folder>> getAllFolders();
 
 }
