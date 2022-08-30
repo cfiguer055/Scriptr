@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ import com.example.scriptr.databinding.ActivityMainBinding;
 import com.example.scriptr.model.Folder;
 import com.example.scriptr.model.Note;
 import com.example.scriptr.viewmodel.MainActivityViewModel;
+import com.example.scriptr.viewmodel.NoteAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
     private MainActivityClickHandlers handlers;
 
     private Folder selectedFolder;
+
+
+    // RecyclerView
+    private RecyclerView noteRecyclerView;
+    private NoteAdapter noteAdapter;
+    private ArrayList<Note> notesList;
 
 
 
@@ -110,9 +119,32 @@ public class MainActivity extends AppCompatActivity {
 
         folderArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
         activityMainBinding.setSpinnerAdapter(folderArrayAdapter);
-
-
     }
+
+
+    public void LoadNotesArrayList(int folderID) {
+        mainActivityViewModel.getNotesOfSelectedFolder(folderID).observe(this, new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notes) {
+                notesList = (ArrayList) notes;
+                LoadRecyclerView();
+            }
+        });
+    }
+
+
+
+    private void LoadRecyclerView() {
+        noteRecyclerView = activityMainBinding.secondaryLayout.recyclerView;
+        noteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        noteRecyclerView.setHasFixedSize(true);
+
+        noteAdapter = new NoteAdapter();
+        noteRecyclerView.setAdapter(noteAdapter);
+
+        noteAdapter.setNotes(notesList);
+    }
+
 
 
 
@@ -130,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
                     "\nname is " + selectedFolder.getTitle();
 
             Toast.makeText(parent.getContext(), "message: " + message, Toast.LENGTH_SHORT).show();
+
+            LoadNotesArrayList(selectedFolder.getFolderId());
         }
     }
 }
