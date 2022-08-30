@@ -77,7 +77,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
     }
 
 
-    public void setListener() {
+    public void setListener(OnItemClickListener onItemClickListener) {
         this.listener = listener;
     }
 

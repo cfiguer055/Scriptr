@@ -1,12 +1,16 @@
 package com.example.scriptr;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,11 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
     private Folder selectedFolder;
 
-
     // RecyclerView
     private RecyclerView noteRecyclerView;
     private NoteAdapter noteAdapter;
     private ArrayList<Note> notesList;
+    private static final int ADD_NOTE_REQUEST_CODE = 1;
+    private static final int EDIT_NOTE_REQUEST_CODE = 2;
+
+    public int selectedNoteId;
 
 
 
@@ -143,6 +150,38 @@ public class MainActivity extends AppCompatActivity {
         noteRecyclerView.setAdapter(noteAdapter);
 
         noteAdapter.setNotes(notesList);
+
+        // EDIT THE COURSE
+        noteAdapter.setListener(new NoteAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Note note) {
+                selectedNoteId = note.getNoteId();
+
+                Intent i = new Intent(MainActivity.this, AddEditActivity.class);
+                i.putExtra(AddEditActivity.NOTE_ID, selectedNoteId);
+                i.putExtra(AddEditActivity.NOTE_TITLE, note.getTitle());
+                i.putExtra(AddEditActivity.NOTE_CONTENT, note.getContent());
+
+                startActivityForResult(i, EDIT_NOTE_REQUEST_CODE);
+
+            }
+        });
+
+        // Delete A Note
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                // use to move note to different position
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                Note noteToDelete = notesList.get(viewHolder.getAdapterPosition());
+                mainActivityViewModel.deleteNote(noteToDelete);
+            }
+        }).attachToRecyclerView(noteRecyclerView);
+
     }
 
 
@@ -151,7 +190,11 @@ public class MainActivity extends AppCompatActivity {
     public class MainActivityClickHandlers {
 
         public void onFABClicked(View view) {
-            Toast.makeText(getApplicationContext(), "Clicked!", Toast.LENGTH_SHORT).show();
+            // CREATE THE COURSE
+
+            Intent i = new Intent(MainActivity.this, AddEditActivity.class);
+            startActivityForResult(i, ADD_NOTE_REQUEST_CODE);
+
         }
 
 
@@ -165,5 +208,34 @@ public class MainActivity extends AppCompatActivity {
 
             LoadNotesArrayList(selectedFolder.getFolderId());
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        int selectedFolderId = selectedFolder.getFolderId();
+
+        if(requestCode == ADD_NOTE_REQUEST_CODE && resultCode == RESULT_OK) {
+            Note note = new Note();
+
+            note.setFolderId(selectedFolderId);
+            note.setTitle(data.getStringExtra(AddEditActivity.NOTE_TITLE));
+            note.setContent(data.getStringExtra(AddEditActivity.NOTE_CONTENT));
+            mainActivityViewModel.addNewNote(note);
+
+        } else if(requestCode == EDIT_NOTE_REQUEST_CODE && resultCode == RESULT_OK) {
+            Note note = new Note();
+
+            note.setFolderId(selectedFolderId);
+            note.setTitle(data.getStringExtra(AddEditActivity.NOTE_TITLE));
+            note.setContent(data.getStringExtra(AddEditActivity.NOTE_CONTENT));
+
+            note.setNoteId(selectedNoteId);
+
+            mainActivityViewModel.updateNote(note);
+        }
+
     }
 }
