@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="note"
@@ -8,23 +8,41 @@
     
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
             android:id="@+id/nameTextView"
             android:text="@{note.title}"
+            android:paddingHorizontal="15dp"
             android:textSize="24sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:background="@drawable/title_background" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:id="@+id/contentTextView"
             android:text="@{note.content}"
+            android:paddingHorizontal="15dp"
             android:textSize="24sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:background="@drawable/content_background" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:id="@+id/timeDateTextView"
+            android:text="@{note.title}"
+            android:textAlignment="viewEnd"
+            android:gravity="center"
+            android:paddingHorizontal="15dp"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:background="@drawable/time_date_background"
+            tools:ignore="RtlCompat" />
 
     </LinearLayout>
 </layout>
