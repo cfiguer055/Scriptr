@@ -32,6 +32,7 @@ public class Note extends BaseObservable {
 
     @ColumnInfo(name = "note_folder_id")
     private int folderId;
+    // no folder functionality for now. use -1 for now.
 
 
 

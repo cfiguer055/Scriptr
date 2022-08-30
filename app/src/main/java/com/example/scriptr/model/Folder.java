@@ -78,4 +78,9 @@ public class Folder extends BaseObservable {
     public void setDate(int date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return this.title;
+    }
 }
