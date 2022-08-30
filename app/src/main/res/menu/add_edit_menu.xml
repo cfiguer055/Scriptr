@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/note_redo"
+        android:orderInCategory="100"
+        android:title="Redo"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/note_undo_all"
+        android:orderInCategory="100"
+        android:title="Undo all"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/note_share"
+        android:orderInCategory="100"
+        android:title="Share"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/note_delete"
+        android:orderInCategory="100"
+        android:title="Delete"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/note_search"
+        android:orderInCategory="100"
+        android:title="Search"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_export"
+        android:orderInCategory="100"
+        android:title="Export to a text file"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/note_categorize"
+        android:orderInCategory="100"
+        android:title="Categorize"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/note_read"
+        android:orderInCategory="100"
+        android:title="Switch to read mode"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/note_print"
+        android:orderInCategory="100"
+        android:title="Print"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/note_info"
+        android:orderInCategory="100"
+        android:title="Show info"
+        app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/action_undo"
+        android:orderInCategory="3"
+        android:title=""
+        android:icon="@drawable/baseline_undo_black_48"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_cancel"
+        android:orderInCategory="2"
+        android:title=""
+        android:icon="@drawable/baseline_cancel_black_48"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_save"
+        android:orderInCategory="1"
+        android:title=""
+        android:icon="@drawable/baseline_check_circle_black_48"
+        app:showAsAction="always" />
+</menu>
