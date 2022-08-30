@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 import com.example.scriptr.BR;
 
 import java.util.Date;
-
+import java.util.Objects;
 
 
 @Entity(tableName = "notes")
@@ -103,5 +103,23 @@ public class Note extends BaseObservable {
     public void setFolderId(int folderId) {
         this.folderId = folderId;
         notifyPropertyChanged(BR.folderId);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Note note = (Note) o;
+        return noteId == note.noteId
+                && folderId == note.folderId
+                && title.equals(note.title)
+                && content.equals(note.content)
+                && date.equals(note.date);              // Date might cause ERROR once date functionality is added!
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(noteId, title, content, date, folderId);
     }
 }

@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.scriptr.NoteDiffCallback;
 import com.example.scriptr.R;
 import com.example.scriptr.databinding.NoteListItemBinding;
 import com.example.scriptr.model.Note;
@@ -83,8 +85,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
 
 
-    public void setNotes(ArrayList<Note> notes) {
-        this.notes = notes;
-        notifyDataSetChanged();
+    public void setNotes(ArrayList<Note> newNotes) {
+        //this.notes = notes;
+        //notifyDataSetChanged();
+
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new NoteDiffCallback(notes, newNotes));
+
+        notes = newNotes;
+        result.dispatchUpdatesTo(NoteAdapter.this);
+
     }
 }
